@@ -1,11 +1,4 @@
-import {
-  Activity,
-  ArrowUpRight,
-  CreditCard,
-  DollarSign,
-  IndianRupee,
-  Users,
-} from "lucide-react";
+import { CreditCard, DollarSign, IndianRupee, Users } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
