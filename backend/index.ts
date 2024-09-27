@@ -26,8 +26,22 @@ app.use(bodyParser({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(express.json());
 app.use(cookieParser());
+
+const allowedOrigins = [
+  "https://darshan-eats-food-delivery-mern-typescript.vercel.app",
+];
+
 const corsOption = {
-  origin: process.env.FRONTEND_URL,
+  origin: function (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
 app.use(cors(corsOption));
@@ -43,5 +57,4 @@ app.use("/api/v1/order", orderRoute);
 
 app.listen(port, () => {
   connectDB();
-  `Server is running on port ${port}`;
 });

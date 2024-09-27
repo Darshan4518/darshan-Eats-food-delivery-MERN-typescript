@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
 import {
-  FolderPenIcon,
-  HandPlatter,
-  Home,
   Hotel,
   Menu,
-  PackageCheckIcon,
   ShoppingCartIcon,
-  User,
+  LayoutDashboard,
+  ClipboardList,
+  FileText,
+  Home,
 } from "lucide-react";
 
 import {
@@ -35,6 +34,7 @@ import { useCartStore } from "@/store/useCartStore";
 interface NavLink {
   path: string;
   label: string;
+  icon?: JSX.Element;
 }
 
 const Navbar: React.FC = () => {
@@ -151,15 +151,21 @@ const CartIcon = () => {
 };
 
 const MobileNavbar = () => {
-  const adminLinks = [
-    { path: "/", label: "Home", icon: <Home /> },
-    { path: "/profile", label: "Profile", icon: <User /> },
-    { path: "/order", label: "Order", icon: <HandPlatter /> },
-    { path: "/cart", label: "Cart", icon: <ShoppingCartIcon /> },
-    { path: "/menu", label: "Menu", icon: <FolderPenIcon /> },
-    { path: "/restaurants", label: "Restaurants", icon: <Hotel /> },
-    { path: "/orders", label: "Restaurant Orders", icon: <PackageCheckIcon /> },
+  const { user } = useUserStore();
+  const adminLinks: NavLink[] = [
+    { path: "/admin/dashboard", label: "Dashboard", icon: <LayoutDashboard /> },
+    { path: "/admin/restaurant", label: "create Restaurant", icon: <Hotel /> },
+    { path: "/admin/menu", label: "Menu", icon: <FileText /> },
+    { path: "/admin/orders", label: "Orders", icon: <ClipboardList /> },
   ];
+
+  const userLinks: NavLink[] = [
+    { path: "/", label: "Home", icon: <Home /> },
+    { path: "/search/india", label: "Restaurants", icon: <Hotel /> },
+    { path: "/cart", label: "Menu", icon: <ShoppingCartIcon /> },
+  ];
+
+  if (user?.role !== "admin") return null;
 
   return (
     <Sheet>
@@ -169,10 +175,21 @@ const MobileNavbar = () => {
       <SheetContent className="flex flex-col justify-between bg-white dark:bg-[#1E1E1E] text-gray-900 dark:text-gray-100">
         <SheetHeader>
           <SheetTitle className="my-2 text-gray-900 dark:text-gray-100">
-            DarshanEats
+            DarshanEats Admin
           </SheetTitle>
         </SheetHeader>
         <SheetDescription className="flex-1 space-y-6 my-6">
+          {userLinks.map(({ path, label, icon }) => (
+            <Link
+              key={path}
+              to={path}
+              className="text-gray-700 dark:text-gray-100 transition font-bold flex items-center gap-x-2 hover:text-gray-500 dark:hover:text-gray-400"
+            >
+              {icon}
+              {label}
+            </Link>
+          ))}
+
           {adminLinks.map(({ path, label, icon }) => (
             <Link
               key={path}
@@ -187,7 +204,7 @@ const MobileNavbar = () => {
         <SheetFooter>
           <SheetClose asChild>
             <Button variant="outline" className="dark:bg-[#2E2E2E]">
-              Logout
+              Close
             </Button>
           </SheetClose>
         </SheetFooter>
