@@ -101,7 +101,7 @@ export const useUserStore: any = create<UseUserState>()(
           }
         } catch (error: any) {
           set({ loading: false });
-          console.error(error);
+
           toast.error(error?.response?.data?.message || "An error occurred");
         }
       },
@@ -118,7 +118,7 @@ export const useUserStore: any = create<UseUserState>()(
           }
         } catch (error: any) {
           set({ loading: false });
-          console.error(error);
+
           toast.error(error?.response?.data?.message || "An error occurred");
         }
       },
@@ -131,7 +131,7 @@ export const useUserStore: any = create<UseUserState>()(
           }
         } catch (error: any) {
           set({ loading: false });
-          console.error(error);
+
           toast.error(error?.response?.data?.message || "An error occurred");
         }
       },
@@ -154,7 +154,7 @@ export const useUserStore: any = create<UseUserState>()(
           }
         } catch (error: any) {
           set({ loading: false });
-          console.error(error);
+
           toast.error(error?.response?.data?.message || "An error occurred");
         }
       },
@@ -180,7 +180,7 @@ export const useUserStore: any = create<UseUserState>()(
           }
         } catch (error: any) {
           set({ loading: false });
-          console.error(error);
+
           toast.error(error?.response?.data?.message || "An error occurred");
         }
       },

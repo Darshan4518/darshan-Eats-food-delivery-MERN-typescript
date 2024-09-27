@@ -22,13 +22,17 @@ interface IorderSchema {
   restaurant: mongoose.Schema.Types.ObjectId;
   deliveryDetails: DeliveryDetails;
   cartItems: CartItems;
-  totalAmount: number;
   status:
     | "pending"
     | "confirmed"
     | "preparing"
     | "outfordelivery"
     | "delivered";
+  restaurantId: mongoose.Schema.Types.ObjectId;
+  userId: mongoose.Schema.Types.ObjectId;
+  totalAmount: number;
+  discount: number;
+  deliveryCharge: number;
 }
 
 interface IorderDocument extends IorderSchema, Document {}
@@ -48,7 +52,7 @@ const orderSchema = new mongoose.Schema<IorderDocument>(
         type: String,
         required: true,
       },
-      name: {
+      fullName: {
         type: String,
         required: true,
       },
@@ -93,7 +97,6 @@ const orderSchema = new mongoose.Schema<IorderDocument>(
         },
       },
     ],
-    totalAmount: Number,
     status: {
       type: String,
       enum: [
@@ -105,6 +108,19 @@ const orderSchema = new mongoose.Schema<IorderDocument>(
       ],
       required: true,
     },
+    restaurantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Restaurant",
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    totalAmount: Number,
+    discount: Number,
+    deliveryCharge: Number,
   },
 
   { timestamps: true }

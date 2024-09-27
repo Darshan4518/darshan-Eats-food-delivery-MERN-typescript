@@ -14,8 +14,14 @@ interface RestaurantState {
   loading: boolean;
   filterByCuisines: string[];
   allRestaurants: [];
-  createRestaurant: (input: restaurantInputState) => Promise<void>;
-  updateRestaurant: (input: any) => Promise<void>;
+  createRestaurant: (
+    input: restaurantInputState,
+    navigate: any
+  ) => Promise<void>;
+  updateRestaurant: (
+    input: restaurantInputState,
+    navigate: any
+  ) => Promise<void>;
   getSingleRestaurant: (id: string) => Promise<void>;
   getSearchRestaurant: (
     searchText: string,
@@ -37,7 +43,7 @@ export const useRestaurantStore = create<RestaurantState>()(
       loading: false,
       allRestaurants: [],
       filterByCuisines: [],
-      createRestaurant: async (input: restaurantInputState) => {
+      createRestaurant: async (input: restaurantInputState, navigate: any) => {
         try {
           set({ loading: true });
           const response = await axios.post(`${API_END_POINT}/create`, input, {
@@ -46,7 +52,8 @@ export const useRestaurantStore = create<RestaurantState>()(
             },
           });
           if (response.data?.success) {
-            set({ loading: false });
+            set({ loading: false, restaurant: response.data?.restaurant });
+            navigate("/admin/restaurant");
             toast.success("Restaurant created successfully");
           }
         } catch (error: any) {
@@ -54,7 +61,7 @@ export const useRestaurantStore = create<RestaurantState>()(
           toast.error(error?.response?.data?.message || "An error occurred");
         }
       },
-      updateRestaurant: async (input: any) => {
+      updateRestaurant: async (input: restaurantInputState, navigate: any) => {
         try {
           set({ loading: true });
           const response = await axios.put(`${API_END_POINT}/update`, input, {
@@ -64,6 +71,7 @@ export const useRestaurantStore = create<RestaurantState>()(
           });
           if (response.data?.success) {
             set({ loading: false, restaurant: response.data?.restaurant });
+            navigate("/admin/restaurant");
             toast.success("Restaurant updated successfully");
           }
         } catch (error: any) {
@@ -86,7 +94,6 @@ export const useRestaurantStore = create<RestaurantState>()(
           toast.error(error?.response?.data?.message || "An error occurred");
         }
       },
-
       getSingleRestaurant: async (id: string) => {
         try {
           set({ loading: true });
@@ -129,7 +136,7 @@ export const useRestaurantStore = create<RestaurantState>()(
             toast.error("No results found");
           }
         } catch (error: any) {
-          set({ loading: false });
+          set({ loading: false, restaurants: [] });
           const errorMessage =
             error?.response?.data?.message || "An unexpected error occurred";
           toast.error(errorMessage);

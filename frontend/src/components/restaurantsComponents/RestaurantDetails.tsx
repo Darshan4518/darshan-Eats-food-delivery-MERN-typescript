@@ -19,7 +19,6 @@ const RestaurantDetails = () => {
 
   useEffect(() => {
     getSingleRestaurant(id as string);
-    console.log(restaurantDetail);
   }, [id, getSingleRestaurant]);
 
   const RenderSkeleton = () => {
@@ -135,7 +134,7 @@ const RestaurantDetails = () => {
                       className="bg-black text-white dark:bg-white dark:text-black p-1 px-2 cursor-pointer"
                       key={ind}
                     >
-                      {item.name}
+                      {item?.name}
                     </Badge>
                   ))}
                 </div>

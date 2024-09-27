@@ -37,10 +37,10 @@ const HeroSection = () => {
           </p>
 
           <div className=" flex justify-center w-full">
-            <div className="relative flex items-center  gap-x-3 max-w-xl my-5 p-3 w-full xl:mx-0">
+            <div className="relative flex items-center  gap-x-3 max-w-xl my-5 p-3 w-full xl:mx-0 ">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
               <Input
-                className="pl-10 w-full outline-none bg-gray-100 text-gray-700 dark:text-gray-300 placeholder:text-gray-500 dark:placeholder:text-gray-500"
+                className="pl-10 w-full ring-0  bg-gray-100 text-gray-700 dark:bg-gray-100  placeholder:text-gray-500 dark:placeholder:text-gray-500 border border-gray-600 focus:border-none"
                 placeholder="Search for restuarant and city and country"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}

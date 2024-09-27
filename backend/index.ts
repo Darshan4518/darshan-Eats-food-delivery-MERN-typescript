@@ -43,5 +43,5 @@ app.use("/api/v1/order", orderRoute);
 
 app.listen(port, () => {
   connectDB();
-  console.log(`Server is running on port ${port}`);
+  `Server is running on port ${port}`;
 });

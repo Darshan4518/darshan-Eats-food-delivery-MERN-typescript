@@ -47,7 +47,7 @@ export const register = async (req: Request, res: Response) => {
       user: userWithoutPassword,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -76,7 +76,7 @@ export const login = async (req: Request, res: Response) => {
       user: userWithoutPassword,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -105,7 +105,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -117,7 +117,7 @@ export const logout = async (_: Request, res: Response) => {
       message: "logged out successfully",
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -144,7 +144,7 @@ export const forgetPassword = async (req: Request, res: Response) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -152,7 +152,7 @@ export const forgetPassword = async (req: Request, res: Response) => {
 export const resetPassword = async (req: Request, res: Response) => {
   try {
     const { resetToken } = req.params;
-    console.log(resetToken);
+    resetToken;
 
     const { newPassword } = req.body;
     const user = await User.findOne({
@@ -175,7 +175,7 @@ export const resetPassword = async (req: Request, res: Response) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -192,7 +192,7 @@ export const checkAuth = async (req: Request, res: Response) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -234,7 +234,7 @@ export const updateProfile = async (req: Request, res: Response) => {
       .status(200)
       .json({ success: true, user, message: "prrofile updated successfully" });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };

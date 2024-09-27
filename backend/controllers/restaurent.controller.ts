@@ -22,7 +22,9 @@ export const createRestaurant = async (req: Request, res: Response) => {
         message: " image required",
       });
     }
-    const restaurant = await Restaurant.findOne({ user: req.id });
+    const restaurant = await Restaurant.findOne({ user: req.id }).populate(
+      "menus"
+    );
 
     if (restaurant) {
       return res.status(400).json({
@@ -50,14 +52,16 @@ export const createRestaurant = async (req: Request, res: Response) => {
       message: "Restaurant added successfully",
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
 
 export const getRestaurant = async (req: Request, res: Response) => {
   try {
-    const restaurant = await Restaurant.findOne({ user: req.id });
+    const restaurant = await Restaurant.findOne({ user: req.id }).populate(
+      "menus orders"
+    );
     if (!restaurant) {
       return res.status(400).json({ message: "restaurant not found!.." });
     }
@@ -66,7 +70,7 @@ export const getRestaurant = async (req: Request, res: Response) => {
       restaurant,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -107,7 +111,7 @@ export const updateRestaurant = async (req: Request, res: Response) => {
       { user: req.id },
       updatedData,
       { new: true }
-    );
+    ).populate("menus");
 
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
@@ -119,7 +123,7 @@ export const updateRestaurant = async (req: Request, res: Response) => {
       restaurant,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -138,7 +142,7 @@ export const getRestaurantOrders = async (req: Request, res: Response) => {
       orders,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -147,7 +151,7 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
     const { status } = req.body;
-    const order = await Order.findById(orderId);
+    const order = await Order.findById(orderId).populate("menus");
     if (!order) {
       return res.status(400).json({ message: "order not found" });
     }
@@ -159,7 +163,7 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
       order,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -202,7 +206,7 @@ export const searchRestaurants = async (req: Request, res: Response) => {
 
     return res.status(200).json({ success: true, restaurants });
   } catch (error) {
-    console.error(error);
+  
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -217,7 +221,7 @@ export const getSingleRestaurant = async (req: Request, res: Response) => {
     }
     res.status(200).json({ success: true, restaurant });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -233,7 +237,7 @@ export const getAllRestaurants = async (req: Request, res: Response) => {
       restaurants,
     });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };

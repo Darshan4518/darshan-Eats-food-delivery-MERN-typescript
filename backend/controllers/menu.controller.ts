@@ -36,7 +36,7 @@ export const createMenu = async (req: Request, res: Response) => {
       message: "Menu created successfully",
     });
   } catch (error) {
-    console.error(error);
+   
     return res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -45,7 +45,12 @@ export const editMenu = async (req: Request, res: Response) => {
   try {
     const { name, description, price } = req.body;
     const file = req.file;
-    const imageUrl = await uploadImageOnCloudinary(file as Express.Multer.File);
+
+    let imageUrl = req.body.image;
+
+    if (file) {
+      imageUrl = await uploadImageOnCloudinary(file as Express.Multer.File);
+    }
     const updatedMenu: ImenuSchema = {
       name,
       description,
@@ -64,7 +69,17 @@ export const editMenu = async (req: Request, res: Response) => {
       .status(200)
       .json({ success: true, menu, message: "menu updated successfully" });
   } catch (error) {
-    console.log(error);
+    error;
+    return res.status(500).json({ message: "internal server error" });
+  }
+};
+
+export const getMenu = async (req: Request, res: Response) => {
+  try {
+    const menu = await Menu.findById(req.params.id);
+    res.status(200).json({ success: true, menu });
+  } catch (error) {
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -74,9 +89,9 @@ export const deleteMenu = async (req: Request, res: Response) => {
     const menu = await Menu.findByIdAndDelete(req.params.id);
     res
       .status(200)
-      .json({ success: true, menu, message: "menu deleted successfully" });
+      .json({ success: true, message: "menu deleted successfully" });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };

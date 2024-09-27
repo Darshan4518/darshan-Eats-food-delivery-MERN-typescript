@@ -1,107 +1,3 @@
-// import {
-//   generatePasswordResetEmailHtml,
-//   generateResetSuccessEmailHtml,
-//   generateWelcomeEmailHtml,
-//   htmlContent,
-// } from "./htmlEmailContent";
-// import { client, sender } from "./mailTrap";
-
-// export const sendVerificationEmail = async (
-//   email: string,
-//   varificationToken: string
-// ) => {
-//   const recipients = [
-//     {
-//       email,
-//     },
-//   ];
-//   try {
-//     const res = client
-//       .send({
-//         from: sender,
-//         to: recipients,
-//         subject: "verify your email",
-//         html: htmlContent.replace("{verificationToken}", varificationToken),
-//         category: "Email Verfication",
-//       })
-//       .then(console.log, console.error);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const sendWelcomeEmail = async (email: string, name: string) => {
-//   const htmlContent = generateWelcomeEmailHtml(name);
-//   const recipients = [
-//     {
-//       email,
-//     },
-//   ];
-//   try {
-//     const res = client
-//       .send({
-//         from: sender,
-//         to: recipients,
-//         subject: "Welcome to DarshanEats",
-//         html: htmlContent,
-//         template_variables: {
-//           company_info_name: "DarshanEats",
-//           name,
-//         },
-//       })
-//       .then(console.log, console.error);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const sendResetPasswodEmail = async (
-//   email: string,
-//   frontend_Url: string
-// ) => {
-//   const htmlContent = generatePasswordResetEmailHtml(frontend_Url);
-//   const recipients = [
-//     {
-//       email,
-//     },
-//   ];
-//   try {
-//     const res = client
-//       .send({
-//         from: sender,
-//         to: recipients,
-//         subject: "Reset your password",
-//         html: htmlContent,
-//         category: "Reset Password",
-//       })
-//       .then(console.log, console.error);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-// export const sendResetPosswordSuccessEmail = async (email: string) => {
-//   const htmlContent = generateResetSuccessEmailHtml();
-
-//   const recipients = [
-//     {
-//       email,
-//     },
-//   ];
-//   try {
-//     const res = client
-//       .send({
-//         from: sender,
-//         to: recipients,
-//         subject: "password reset successfully",
-//         html: htmlContent,
-//         category: "password reseted",
-//       })
-//       .then(console.log, console.error);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
@@ -121,8 +17,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Define a type for the sendMail response
-
 export const sendVerificationEmail = async (
   email: string,
   verificationToken: string
@@ -136,9 +30,8 @@ export const sendVerificationEmail = async (
 
   try {
     const info: any = await transporter.sendMail(mailOptions);
-    console.log("Verification email sent:", info.response);
   } catch (error) {
-    console.error("Error sending verification email:", error);
+    throw new Error("failed send email");
   }
 };
 
@@ -157,9 +50,8 @@ export const sendWelcomeEmail = async (
 
   try {
     const info: any = await transporter.sendMail(mailOptions);
-    console.log("Welcome email sent:", info.response);
   } catch (error) {
-    console.error("Error sending welcome email:", error);
+    throw new Error("failed send email");
   }
 };
 
@@ -178,9 +70,8 @@ export const sendResetPasswordEmail = async (
 
   try {
     const info: any = await transporter.sendMail(mailOptions);
-    console.log("Reset password email sent:", info.response);
   } catch (error) {
-    console.error("Error sending reset password email:", error);
+    throw new Error("failed send email");
   }
 };
 
@@ -198,8 +89,7 @@ export const sendResetPasswordSuccessEmail = async (
 
   try {
     const info: any = await transporter.sendMail(mailOptions);
-    console.log("Password reset success email sent:", info.response);
   } catch (error) {
-    console.error("Error sending reset password success email:", error);
+    throw new Error("failed send email");
   }
 };

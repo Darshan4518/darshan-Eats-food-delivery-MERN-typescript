@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useState,
-} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,28 +9,31 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { UserInputState } from "@/schema/authScheama";
+import { useUserStore } from "@/store/useUserStore";
 
-interface FormData {
-  fullName: string;
+interface CheckoutConfirmState extends UserInputState {
   email: string;
-  country: string;
-  address: string;
-  city: string;
 }
 
 const CheckoutConfirm = ({
   open,
   setOpen,
+  setOpenPayemnt,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpenPayemnt: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    email: "",
-    country: "",
-    address: "",
-    city: "",
+  const { user } = useUserStore();
+
+  const [formData, setFormData] = useState<CheckoutConfirmState>({
+    fullName: user?.fullName || "",
+    email: user?.email || "",
+    country: user?.country || "",
+    address: user?.address || "",
+    city: user?.city || "",
+    contact: user?.contact || "",
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +41,9 @@ const CheckoutConfirm = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log("Updated Profile Data:", formData);
+  const handleClick = () => {
+    setOpen(false);
+    setOpenPayemnt(true);
   };
 
   return (
@@ -55,21 +51,21 @@ const CheckoutConfirm = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           onInteractOutside={() => setOpen(false)}
-          className="dark:bg-gray-800 dark:text-gray-100"
+          className="dark:bg-gray-800 dark:text-gray-100 overflow-auto max-h-[90vh] w-full sm:max-w-lg p-4 sm:p-6"
         >
           <DialogHeader>
             <DialogTitle className="text-center font-bold text-gray-600 dark:text-gray-300 my-2">
               Review your Order
             </DialogTitle>
-            <DialogDescription className="text-gray-500 dark:text-gray-400">
+            <DialogDescription className="text-gray-500 dark:text-gray-400 text-sm">
               Double-check your items, quantities, and prices before proceeding
               to checkout. Make sure everything looks correct to avoid any
               issues with your order. If you need to make changes, you can go
               back and update your cart.
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
+          <div className="space-y-4">
+            <div>
               <Label
                 htmlFor="fullName"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -81,13 +77,13 @@ const CheckoutConfirm = ({
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleInputChange}
-                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 w-full"
                 placeholder="darshan"
                 required
               />
             </div>
 
-            <div className="mb-4">
+            <div>
               <Label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -99,13 +95,31 @@ const CheckoutConfirm = ({
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 w-full"
                 placeholder="darshan@gmail.com"
                 required
               />
             </div>
 
-            <div className="mb-4">
+            <div>
+              <Label
+                htmlFor="contact"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Contact
+              </Label>
+              <Input
+                id="contact"
+                name="contact"
+                value={formData.contact}
+                onChange={handleInputChange}
+                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 w-full"
+                placeholder="Country"
+                required
+              />
+            </div>
+
+            <div>
               <Label
                 htmlFor="country"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -117,13 +131,13 @@ const CheckoutConfirm = ({
                 name="country"
                 value={formData.country}
                 onChange={handleInputChange}
-                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 w-full"
                 placeholder="Country"
                 required
               />
             </div>
 
-            <div className="mb-4">
+            <div>
               <Label
                 htmlFor="address"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -135,13 +149,13 @@ const CheckoutConfirm = ({
                 name="address"
                 value={formData.address}
                 onChange={handleInputChange}
-                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 w-full"
                 placeholder="123 Main St"
                 required
               />
             </div>
 
-            <div className="mb-4">
+            <div>
               <Label
                 htmlFor="city"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -153,19 +167,20 @@ const CheckoutConfirm = ({
                 name="city"
                 value={formData.city}
                 onChange={handleInputChange}
-                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
+                className="mt-1 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 w-full"
                 placeholder="City"
                 required
               />
             </div>
 
             <Button
+              onClick={handleClick}
               type="submit"
               className="mt-4 w-full bg-orange-400 dark:bg-orange-600"
             >
               Continue to Payment
             </Button>
-          </form>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

@@ -1,8 +1,11 @@
 import { AnimatedSubscribeButton } from "../magicui/animated-subscribe-button";
 import { CheckIcon, ShoppingCartIcon } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
+import { useCartStore } from "@/store/useCartStore";
 
 const AvailableMenus = ({ menus, loading }: any) => {
+  const { addCartItem } = useCartStore();
+
   if (loading) {
     return (
       <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 my-3 items-center justify-center">
@@ -51,14 +54,17 @@ const AvailableMenus = ({ menus, loading }: any) => {
                   </span>
                 </div>
 
-                <div className="flex w-full justify-center mt-4">
+                <div
+                  className="flex w-full justify-center mt-4"
+                  onClick={() => addCartItem(menu)}
+                >
                   <AnimatedSubscribeButton
                     buttonColor="#FF885B"
                     buttonTextColor="#ffff"
                     subscribeStatus={false}
                     initialText={
-                      <span className="group flex items-center text-sm font-semibold  ">
-                        Add To Cart{" "}
+                      <span className="group flex items-center text-sm font-semibold ">
+                        Add To Cart
                         <ShoppingCartIcon className="ml-2 h-4 w-4" />
                       </span>
                     }

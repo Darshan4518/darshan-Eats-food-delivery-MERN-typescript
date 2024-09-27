@@ -5,6 +5,7 @@ import {
   createMenu,
   deleteMenu,
   editMenu,
+  getMenu,
 } from "../controllers/menu.controller";
 
 const router = Router();
@@ -14,7 +15,8 @@ router
   .post(isAuthenticated, upload.single("image"), createMenu);
 router
   .route("/update/:id")
-  .post(isAuthenticated, upload.single("image"), editMenu);
-router.route("/delete/:id").post(isAuthenticated, deleteMenu);
+  .put(isAuthenticated, upload.single("image"), editMenu);
+router.route("/delete/:id").delete(isAuthenticated, deleteMenu);
+router.route("/:id").get(isAuthenticated, getMenu);
 
 export default router;

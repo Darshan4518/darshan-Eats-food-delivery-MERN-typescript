@@ -30,6 +30,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import ToggleDarkModeBtn from "./ToggleDarkModeBtn";
+import { useCartStore } from "@/store/useCartStore";
 
 interface NavLink {
   path: string;
@@ -53,9 +54,12 @@ const Navbar: React.FC = () => {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="md:flex md:items-center md:gap-12">
-            <Link className="block text-teal-600 dark:text-teal-400" to="/">
+            <Link
+              className="block text-teal-600 dark:text-teal-400"
+              to="/profile"
+            >
               <Avatar className="w-10 h-10">
-                <AvatarImage src={""} alt="Logo" />
+                <AvatarImage src={user?.profilePicture} alt="Logo" />
                 <AvatarFallback>D</AvatarFallback>
               </Avatar>
             </Link>
@@ -133,14 +137,13 @@ const Navbar: React.FC = () => {
 };
 
 const CartIcon = () => {
-  const cartItemCount = 5; // Replace with actual cart count from state/store
-
+  const { cart } = useCartStore();
   return (
     <Link to={"/cart"} className="relative">
       <ShoppingCartIcon className="text-gray-600 dark:text-gray-300 font-bold" />
-      {cartItemCount > 0 && (
+      {cart?.length > 0 && (
         <span className="bg-[#FF6B6B] dark:bg-[#FF6B6B] rounded-full py-1 px-2 text-[10px] text-center text-white font-bold absolute top-0 right-0 -mt-3 -mr-2">
-          {cartItemCount}
+          {cart?.length}
         </span>
       )}
     </Link>

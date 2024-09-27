@@ -8,6 +8,7 @@ import SignupPage from "./auth/SignUpForm";
 import ForgetPass from "./auth/ForgetPass";
 import { useUserStore } from "./store/useUserStore";
 import VerifyEmail from "./auth/VerifyEmail";
+import Footer from "./components/Footer";
 
 const Layout = () => {
   const { open, setOpen, tab } = useAuthModel();
@@ -31,8 +32,7 @@ const Layout = () => {
           {tab === "verifyemail" && <VerifyEmail />}
         </DialogContent>
       </Dialog>
-      {/* Uncomment and add your Footer component if needed */}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };

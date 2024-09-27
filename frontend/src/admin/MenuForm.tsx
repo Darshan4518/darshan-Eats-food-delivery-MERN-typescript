@@ -3,6 +3,7 @@ import {
   Dispatch,
   FormEvent,
   SetStateAction,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -22,11 +23,13 @@ import { MenuInputState } from "../schema/menuSchema";
 const MenuForm = ({
   open,
   setOpen,
+  menuData,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  menuData: any | null; // Type of menuData
 }) => {
-  const { addMenu, loading } = useMenuStore();
+  const { addMenu, loading, updateMenu } = useMenuStore();
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -38,6 +41,27 @@ const MenuForm = ({
     image: undefined,
   });
 
+  // Populate form data when menuData changes
+  useEffect(() => {
+    if (menuData) {
+      setFormData(menuData);
+      if (menuData.image instanceof File) {
+        setProfileImage(URL.createObjectURL(menuData.image));
+      } else if (typeof menuData.image === "string") {
+        setProfileImage(menuData.image);
+      }
+    } else {
+      // Reset form if menuData is null (i.e., adding a new menu)
+      setFormData({
+        name: "",
+        description: "",
+        price: 0,
+        image: undefined,
+      });
+      setProfileImage(null);
+    }
+  }, [menuData]);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -45,6 +69,7 @@ const MenuForm = ({
       [name]: name === "price" ? parseFloat(value) : value,
     });
   };
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -55,7 +80,12 @@ const MenuForm = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await addMenu(formData);
+    if (menuData) {
+      await updateMenu(formData, menuData?._id);
+    } else {
+      await addMenu(formData);
+    }
+    setOpen(false);
   };
 
   const handleImageClick = () => {
@@ -68,11 +98,11 @@ const MenuForm = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
         onInteractOutside={() => setOpen(false)}
-        className="sm:overflow-y-auto overflow-y-auto max-h-[90vh] p-4"
+        className="sm:overflow-y-auto overflow-y-auto max-h-[90vh] p-4 "
       >
         <DialogHeader>
           <DialogTitle className="text-center font-bold text-gray-600 my-2">
-            Add New Menu
+            {menuData ? "Edit Menu" : "Add New Menu"}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -88,7 +118,7 @@ const MenuForm = ({
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="mt-1 w-full  dark:text-white font-bold"
+              className="mt-1 w-full dark:text-white font-bold"
               placeholder="Enter menu name"
               required
             />
@@ -97,7 +127,7 @@ const MenuForm = ({
           <div>
             <Label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700  dark:text-white"
+              className="block text-sm font-medium text-gray-700 dark:text-white"
             >
               Description
             </Label>
@@ -106,7 +136,7 @@ const MenuForm = ({
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              className="mt-1 w-full  dark:text-white font-bold"
+              className="mt-1 w-full dark:text-white font-bold"
               placeholder="Enter menu description"
               required
             />
@@ -115,7 +145,7 @@ const MenuForm = ({
           <div>
             <Label
               htmlFor="price"
-              className="block text-sm font-medium text-gray-700  dark:text-white"
+              className="block text-sm font-medium text-gray-700 dark:text-white"
             >
               Price
             </Label>
@@ -125,7 +155,7 @@ const MenuForm = ({
               type="number"
               value={formData.price.toString()}
               onChange={handleInputChange}
-              className="mt-1 w-full  dark:text-white font-bold"
+              className="mt-1 w-full dark:text-white font-bold"
               placeholder="Enter menu price"
               required
             />
@@ -159,11 +189,11 @@ const MenuForm = ({
 
           {loading ? (
             <Button type="submit" className="w-full bg-orange-400">
-              <Loader2 className=" animate-spin" />
+              <Loader2 className="animate-spin" />
             </Button>
           ) : (
             <Button type="submit" className="w-full bg-orange-400">
-              Add Menu
+              {menuData ? "Update Menu" : "Add Menu"}
             </Button>
           )}
         </form>

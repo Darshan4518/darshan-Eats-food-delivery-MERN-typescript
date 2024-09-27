@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { Order } from "../models/order.model";
-import Razorpay from "razorpay";
-import { Menu } from "../models/menu.model";
 import { Restaurant } from "../models/restaurant.model";
+import mongoose from "mongoose";
 
 export const getOrders = async (req: Request, res: Response) => {
   try {
@@ -11,7 +10,7 @@ export const getOrders = async (req: Request, res: Response) => {
     );
     return res.status(200).json({ success: true, orders });
   } catch (error) {
-    console.log(error);
+    error;
     return res.status(500).json({ message: "internal server error" });
   }
 };
@@ -22,8 +21,7 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 
     const restaurant = await Restaurant.findById(
       checkoutSessionRequest.restaurantId
-    ).populate("menus");
-
+    ).populate("menus orders");
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }
@@ -33,41 +31,20 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
       userId: req.id,
       deliveryDetails: checkoutSessionRequest.deliveryDetails,
       cartItems: checkoutSessionRequest.cartItems,
-      status: "pending",
+      status: "confirmed",
+      totalAmount: checkoutSessionRequest.totalAmount,
+      discount: checkoutSessionRequest.discount,
+      deliveryCharge: checkoutSessionRequest.deliveryCharge,
     });
 
-    // Initialize Razorpay
-    const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY!,
-      key_secret: process.env.RAZORPAY_SECRET!,
+    restaurant.orders.push(order?._id as mongoose.Schema.Types.ObjectId);
+    await restaurant.save();
+
+    return res.status(201).json({
+      success: true,
+      message: "payment successfull",
     });
-
-    let totalAmount = 0;
-    for (const cartItem of checkoutSessionRequest.cartItems) {
-      const menu = await Menu.findById(cartItem.menuId);
-      if (menu) {
-        totalAmount += menu.price * cartItem.quantity;
-      } else {
-        return res
-          .status(404)
-          .json({ message: `Menu item not found: ${cartItem.menuId}` });
-      }
-    }
-
-    const options = {
-      amount: (totalAmount * 100).toString(),
-      currency: "INR",
-      receipt: order._id as string,
-      payment_capture: 1,
-    };
-
-    const razorpayOrder = await razorpay.orders.create(options);
-
-    return res
-      .status(201)
-      .json({ success: true, message: "payment successfull" });
   } catch (error) {
-    console.error("Error creating session or payment:", error);
     return res.status(500).json({ message: "An error occurred", error });
   }
 };

@@ -15,6 +15,6 @@ export const generateJwtToken = async (res: Response, user: IUserDocument) => {
     });
     return token;
   } catch (error) {
-    console.log("wt  ", error);
+    throw new Error("token not found");
   }
 };

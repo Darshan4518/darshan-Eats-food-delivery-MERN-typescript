@@ -3,6 +3,7 @@ import {
   ArrowUpRight,
   CreditCard,
   DollarSign,
+  IndianRupee,
   Users,
 } from "lucide-react";
 
@@ -30,50 +31,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRestaurantStore } from "@/store/useRestaurantStore";
 
 // Description for the dashboard
 export const description =
   "Food order dashboard with summary cards and recent orders table.";
 
-// Define the types for the orders
-interface Order {
-  customerName: string;
-  email: string;
-  orderType: string;
-  orderStatus: string;
-  orderDate: string;
-  orderAmount: string;
-}
-
-const recentOrders: Order[] = [
-  {
-    customerName: "Olivia Martin",
-    email: "olivia.martin@email.com",
-    orderType: "Delivery",
-    orderStatus: "Completed",
-    orderDate: "2024-09-10",
-    orderAmount: "$45.00",
-  },
-  {
-    customerName: "Jackson Lee",
-    email: "jackson.lee@email.com",
-    orderType: "Pickup",
-    orderStatus: "Pending",
-    orderDate: "2024-09-09",
-    orderAmount: "$22.00",
-  },
-  {
-    customerName: "Isabella Nguyen",
-    email: "isabella.nguyen@email.com",
-    orderType: "Delivery",
-    orderStatus: "Completed",
-    orderDate: "2024-09-08",
-    orderAmount: "$58.00",
-  },
-  // Duplicate entries removed
-];
-
 export function Dashboard() {
+  const { restaurant } = useRestaurantStore();
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       {/* Main content */}
@@ -88,12 +54,18 @@ export function Dashboard() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                $23,451.67
+              <div className="text-2xl flex items-center font-bold text-gray-900 dark:text-gray-100">
+                {restaurant?.orders?.length > 0
+                  ? restaurant.orders.reduce(
+                      (amount: number, item: any) =>
+                        amount + (item?.totalAmount || 0),
+                      0
+                    )
+                  : 0}{" "}
+                <span>
+                  <IndianRupee className=" size-5" />
+                </span>
               </div>
-              <p className="text-xs text-muted-foreground">
-                +18.5% from last month
-              </p>
             </CardContent>
           </Card>
           <Card>
@@ -105,43 +77,21 @@ export function Dashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                1,234
+                + {restaurant?.orders?.length}
               </div>
-              <p className="text-xs text-muted-foreground">
-                +12% from last month
-              </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                Sales
+                Menus
               </CardTitle>
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                +567
+                + {restaurant?.menus?.length || 0}
               </div>
-              <p className="text-xs text-muted-foreground">
-                +10% from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                Active Now
-              </CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                +124
-              </div>
-              <p className="text-xs text-muted-foreground">
-                +30 since last hour
-              </p>
             </CardContent>
           </Card>
         </div>
@@ -157,9 +107,6 @@ export function Dashboard() {
                 View the latest orders and their details.
               </CardDescription>
             </div>
-            <Button variant="ghost" className="ml-auto">
-              View all <ArrowUpRight className="ml-2 h-4 w-4" />
-            </Button>
           </CardHeader>
           <CardContent className="p-0">
             <Table>
@@ -167,18 +114,19 @@ export function Dashboard() {
                 <TableRow>
                   <TableHead>Customer</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead>Type</TableHead>
+                  <TableHead>City</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {recentOrders.map((order, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{order.customerName}</TableCell>
-                    <TableCell>{order.email}</TableCell>
-                    <TableCell>{order.orderType}</TableCell>
+                {restaurant?.orders?.map((order: any) => (
+                  <TableRow key={order?._id}>
+                    <TableCell>{order?.deliveryDetails?.fullName}</TableCell>
+                    <TableCell>{order?.deliveryDetails?.email}</TableCell>
+                    <TableCell>{order?.deliveryDetails?.city}</TableCell>
+
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -194,7 +142,7 @@ export function Dashboard() {
                                   : "secondary"
                               }
                             >
-                              {order.orderStatus}
+                              {order.status}
                             </Badge>
                             <span className="sr-only">Toggle menu</span>
                           </Button>
@@ -207,9 +155,13 @@ export function Dashboard() {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
-                    <TableCell>{order.orderDate}</TableCell>
-                    <TableCell className="text-right">
-                      {order.orderAmount}
+                    <TableCell>
+                      {order?.createdAt &&
+                        new Date(order?.createdAt).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className="flex items-center justify-end my-2">
+                      {order?.totalAmount}
+                      <IndianRupee className=" size-3" />
                     </TableCell>
                   </TableRow>
                 ))}

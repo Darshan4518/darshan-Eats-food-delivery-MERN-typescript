@@ -1,24 +1,27 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRestaurantStore } from "@/store/useRestaurantStore";
 import {
-  Badge,
   Edit,
   Globe2,
   HandPlatterIcon,
-  LucideTimer,
+  Timer,
   MapPin,
   MapPinnedIcon,
 } from "lucide-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Restaurant = () => {
+  const navigate = useNavigate();
   const { loading, restaurant, getRestaurant } = useRestaurantStore();
+
   useEffect(() => {
-    const fetch = async () => {
-      await getRestaurant();
-    };
-    fetch();
+    if (!restaurant) {
+      navigate("/admin/restaurant/create");
+    }
+    getRestaurant();
   }, [getRestaurant]);
 
   const RenderSkeleton = () => {
@@ -55,88 +58,85 @@ const Restaurant = () => {
 
   return (
     <div className="dark:bg-gray-900 dark:text-gray-100 bg-white text-gray-800 w-full relative">
-      <div className="max-w-6xl mx-auto md:p-4 p-2">
+      <div className="max-w-6xl mx-auto md:p-2 p-2">
         <div>
           {loading ? (
             <RenderSkeleton />
           ) : (
-            <div className="">
-              <h1 className="text-3xl font-bold">
-                {restaurant?.restaurantName}
-              </h1>
+            <div>
+              <div className=" flex justify-between sm:flex-row flex-col gap-2 items-center my-3">
+                <h1 className="text-xl md:text-3xl font-bold my-4 text-center md:text-left">
+                  {restaurant?.restaurantName}
+                </h1>
+                <Button
+                  variant={"outline"}
+                  className="flex gap-1 items-center text-sm mx-3 "
+                  onClick={() => navigate("/admin/restaurant/create")}
+                >
+                  <Edit />
+                  Edit
+                </Button>
+              </div>
               <img
                 src={restaurant?.imageUrl}
                 alt="Restaurant"
-                className="w-full lg:h-[50vh] h-46 object-fill rounded-md shadow-lg"
+                className="w-full lg:h-[50vh] md:h-72 h-48 object-cover rounded-md shadow-lg"
               />
-              <p className="text-base font-bold text-gray-800 py-6 text-center dark:text-gray-300">
+              <p className="text-base md:text-lg font-medium text-gray-800 py-4 md:py-6 text-center md:text-left dark:text-gray-300">
                 {restaurant?.restaurantDescription}
               </p>
-              <div className="flex gap-5  md:flex-row justify-between md:items-center flex-wrap text-sm my-5">
-                <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                  <MapPin className="size-4 text-indigo-700 dark:text-indigo-400" />
-                  <div className="mt-1.5 sm:mt-0">
+              <div className="flex flex-wrap gap-4 md:gap-5 justify-between md:items-center text-sm my-5">
+                <div className="flex items-start gap-2 w-full sm:w-auto">
+                  <MapPin className="w-4 h-4 text-indigo-700 dark:text-indigo-400" />
+                  <div>
                     <p className="text-gray-500 dark:text-gray-400">Address</p>
                     <p className="font-medium dark:text-gray-200">
                       {restaurant?.address}
                     </p>
                   </div>
                 </div>
-                <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                  <MapPinnedIcon className="size-4 text-indigo-700 dark:text-indigo-400" />
-                  <div className="mt-1.5 sm:mt-0">
+                <div className="flex items-start gap-2 w-full sm:w-auto">
+                  <MapPinnedIcon className="w-4 h-4 text-indigo-700 dark:text-indigo-400" />
+                  <div>
                     <p className="text-gray-500 dark:text-gray-400">City</p>
                     <p className="font-medium dark:text-gray-200">
                       {restaurant?.city}
                     </p>
                   </div>
                 </div>
-                <div className="sm:inline-flex sm:shrink-0 sm:items-center sm:gap-2">
-                  <Globe2 className="size-4 text-indigo-700 dark:text-indigo-400" />
-                  <div className="mt-1.5 sm:mt-0">
+                <div className="flex items-start gap-2 w-full sm:w-auto">
+                  <Globe2 className="w-4 h-4 text-indigo-700 dark:text-indigo-400" />
+                  <div>
                     <p className="text-gray-500 dark:text-gray-400">Country</p>
                     <p className="font-medium dark:text-gray-200">
                       {restaurant?.country}
                     </p>
                   </div>
                 </div>
-                <div className="my-5 flex items-center gap-x-2">
-                  <h3 className="flex items-center gap-x-2">
-                    <LucideTimer className="size-4 text-indigo-700 dark:text-indigo-400" />
-                    <span className="font-bold text-gray-700 dark:text-gray-300 text-sm">
-                      Delivery Time:
-                    </span>
-                  </h3>
+                <div className="flex items-center gap-x-2 w-full sm:w-auto mt-3 md:mt-0">
+                  <Timer className="w-4 h-4 text-indigo-700 dark:text-indigo-400" />
+                  <span className="font-bold text-gray-700 dark:text-gray-300 text-sm">
+                    Delivery Time:
+                  </span>
                   <p className="text-orange-500 text-sm font-bold dark:text-orange-300">
                     {restaurant?.deliveryTime} Minutes
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-x-5 w-full my-3">
+              <div className="flex flex-wrap gap-x-5 w-full my-3">
                 <h3 className="font-bold text-gray-700 text-base dark:text-white flex items-center gap-x-2">
-                  <HandPlatterIcon className="size-4 text-indigo-700 dark:text-indigo-400" />{" "}
+                  <HandPlatterIcon className="w-4 h-4 text-indigo-700 dark:text-indigo-400" />
                   Cuisines:
                 </h3>
-                <div className="gap-3 flex flex-wrap">
-                  {restaurant?.menus?.map((item: any, ind: number) => (
+                <div className="gap-2 flex flex-wrap mt-2">
+                  {restaurant?.cuisines?.map((item: any, ind: number) => (
                     <Badge
-                      className="bg-black text-white dark:bg-white dark:text-black p-1 px-2 cursor-pointer"
+                      className="bg-black text-white dark:bg-white dark:text-black p-1 px-2 cursor-pointer text-xs md:text-sm"
                       key={ind}
                     >
-                      {item.name}
+                      {item}
                     </Badge>
                   ))}
-                </div>
-              </div>
-              <div className=" bg-slate-300/90 shadow-lg absolute bottom-3 right-3 p-4 max-w-[20vw]">
-                <p className="my-1 text-center">
-                  if you wnat make any changes in restaurant ?
-                </p>
-                <div className=" w-full flex justify-center">
-                  <Button variant={"outline"} className=" my-2">
-                    <Edit />
-                    Edit
-                  </Button>
                 </div>
               </div>
             </div>

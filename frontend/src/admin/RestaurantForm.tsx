@@ -5,6 +5,7 @@ import { Label } from "../components/ui/label";
 import { ImageIcon, Loader2 } from "lucide-react";
 import { restaurantInputState } from "@/schema/restaurantSchema";
 import { useRestaurantStore } from "@/store/useRestaurantStore";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantForm = () => {
   const {
@@ -14,6 +15,8 @@ const RestaurantForm = () => {
     getRestaurant,
     updateRestaurant,
   } = useRestaurantStore();
+
+  const navigate = useNavigate();
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
@@ -75,14 +78,14 @@ const RestaurantForm = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (restaurant) {
-      await updateRestaurant(formdata);
+      await updateRestaurant(formdata, navigate);
     } else {
-      await createRestaurant(formdata);
+      await createRestaurant(formdata, navigate);
     }
   };
 
   return (
-    <div className="dark:bg-gray-900 dark:text-gray-100">
+    <div className="dark:bg-gray-900 dark:text-gray-100 w-full">
       <div className="max-w-7xl mx-auto p-4 md:p-5 ">
         <div className="max-w-xl lg:max-w-3xl w-full p-6 bg-white shadow-md rounded-lg mx-auto dark:bg-gray-800">
           <h3 className="text-gray-700 font-bold text-2xl text-center dark:text-gray-300">

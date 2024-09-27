@@ -10,6 +10,8 @@ interface IrestaurantSchema {
   address: string;
   cuisines: string[];
   menus: mongoose.Schema.Types.ObjectId[];
+  orders: mongoose.Schema.Types.ObjectId[];
+
   imageUrl: string;
 }
 
@@ -67,6 +69,12 @@ const restaurantSchema = new mongoose.Schema<IrestaurantDocument>(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Menu",
+      },
+    ],
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order",
       },
     ],
     imageUrl: {

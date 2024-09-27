@@ -7,7 +7,6 @@ import { useRestaurantStore } from "@/store/useRestaurantStore";
 const FilterSection = () => {
   const { allRestaurants, getAllRestaurants } = useRestaurantStore();
   const [cuisineList, setCuisineList] = useState<string[]>([]);
-  console.log(allRestaurants);
 
   const {
     appliedCuisinesFilter,
