@@ -165,8 +165,6 @@ const MobileNavbar = () => {
     { path: "/cart", label: "Menu", icon: <ShoppingCartIcon /> },
   ];
 
-  if (user?.role !== "admin") return null;
-
   return (
     <Sheet>
       <SheetTrigger>
@@ -190,16 +188,17 @@ const MobileNavbar = () => {
             </Link>
           ))}
 
-          {adminLinks.map(({ path, label, icon }) => (
-            <Link
-              key={path}
-              to={path}
-              className="text-gray-700 dark:text-gray-100 transition font-bold flex items-center gap-x-2 hover:text-gray-500 dark:hover:text-gray-400"
-            >
-              {icon}
-              {label}
-            </Link>
-          ))}
+          {user?.role === "admin" &&
+            adminLinks.map(({ path, label, icon }) => (
+              <Link
+                key={path}
+                to={path}
+                className="text-gray-700 dark:text-gray-100 transition font-bold flex items-center gap-x-2 hover:text-gray-500 dark:hover:text-gray-400"
+              >
+                {icon}
+                {label}
+              </Link>
+            ))}
         </SheetDescription>
         <SheetFooter>
           <SheetClose asChild>

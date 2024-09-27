@@ -10,8 +10,8 @@ export const generateJwtToken = async (res: Response, user: IUserDocument) => {
     });
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
-      maxAge: 3 * 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
     });
     return token;
   } catch (error) {
