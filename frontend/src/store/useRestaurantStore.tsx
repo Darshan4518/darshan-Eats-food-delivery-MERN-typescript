@@ -4,7 +4,8 @@ import axios from "axios";
 import { toast } from "sonner";
 import { restaurantInputState } from "@/schema/restaurantSchema";
 
-const API_END_POINT = "http://localhost:8000/api/v1/restaurant";
+const API_END_POINT =
+  "https://darshan-eats-food-delivery-mern.onrender.com/api/v1/restaurant";
 axios.defaults.withCredentials = true;
 
 interface RestaurantState {

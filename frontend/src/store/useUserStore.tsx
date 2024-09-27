@@ -9,7 +9,8 @@ import {
 } from "@/schema/authScheama";
 import { useAuthModel } from "./useAuthModel";
 
-const API_ENDPOINT = "http://localhost:8000/api/v1/user";
+const API_ENDPOINT =
+  "https://darshan-eats-food-delivery-mern.onrender.com/api/v1/user";
 axios.defaults.withCredentials = true;
 
 type UseUserState = {

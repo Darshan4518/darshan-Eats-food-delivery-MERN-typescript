@@ -9,7 +9,8 @@ import { useRestaurantStore } from "@/store/useRestaurantStore";
 import { toast } from "sonner";
 import axios from "axios";
 
-const API_END_POINT = "http://localhost:8000/api/v1/menu";
+const API_END_POINT =
+  "https://darshan-eats-food-delivery-mern.onrender.com/api/v1/menu";
 
 const Menu = () => {
   const [open, setOpen] = useState<boolean>(false);

@@ -4,7 +4,8 @@ import axios from "axios";
 import { toast } from "sonner";
 import { MenuInputState } from "../schema/menuSchema";
 
-const API_END_POINT = "http://localhost:8000/api/v1/menu";
+const API_END_POINT =
+  "https://darshan-eats-food-delivery-mern.onrender.com/api/v1/menu";
 axios.defaults.withCredentials = true;
 
 type UseMenuState = {

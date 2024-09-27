@@ -5,7 +5,8 @@ import { toast } from "sonner";
 import { useCartStore } from "./useCartStore";
 import { useRestaurantStore } from "./useRestaurantStore";
 
-const API_END_POINT = "http://localhost:8000/api/v1/order";
+const API_END_POINT =
+  "https://darshan-eats-food-delivery-mern.onrender.com/api/v1/order";
 axios.defaults.withCredentials = true;
 
 type orderState = {
