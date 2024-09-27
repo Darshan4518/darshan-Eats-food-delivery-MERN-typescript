@@ -164,7 +164,6 @@ const MobileNavbar = () => {
     { path: "/search/india", label: "Restaurants", icon: <Hotel /> },
     { path: "/cart", label: "Menu", icon: <ShoppingCartIcon /> },
   ];
-
   return (
     <Sheet>
       <SheetTrigger>
