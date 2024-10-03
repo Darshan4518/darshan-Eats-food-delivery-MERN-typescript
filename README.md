@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Darshan-Eats - README</title>
 </head>
 <body>
-
   <h1>Darshan-Eats</h1>
   <p>Darshan-Eats is a full-stack food delivery website built using TypeScript for both the frontend and backend. The project allows users to order food from their favorite restaurants, and provides an admin panel for managing restaurants, menus, and orders. The website features advanced authentication and role-based access control.</p>
 
@@ -159,7 +157,45 @@ cd darshan-eats
 
 ![Screenshot 2024-10-03 121432](https://github.com/user-attachments/assets/ba839415-acb4-4220-a51f-271d037ba637)
 
+![Screenshot 2024-10-03 124910](https://github.com/user-attachments/assets/38d4f98d-3a13-4c20-83d2-789b1d9a7fd4)
 
+![Screenshot 2024-10-03 124954](https://github.com/user-attachments/assets/15750902-63d8-42f5-9bf4-025923fb44b8)
+
+![Screenshot 2024-10-03 125028](https://github.com/user-attachments/assets/07753218-3a1d-43fc-a713-370206a37080)
+
+<h3>For Admin</h3>
+
+![Screenshot 2024-10-03 125500](https://github.com/user-attachments/assets/b6459ae6-40d2-4bc6-bf24-aae8a17bbc5b)
+
+![Screenshot 2024-10-03 125513](https://github.com/user-attachments/assets/7e625a77-d197-4d3e-9dcf-4791360481a5)
+
+![Screenshot 2024-10-03 125656](https://github.com/user-attachments/assets/b5ed4427-7ee0-4bf2-acc8-5d830f13c39f)
+
+![Screenshot 2024-10-03 125752](https://github.com/user-attachments/assets/432024fa-2d38-4cc2-a389-6fc9856f6073)
+
+![Screenshot 2024-10-03 125834](https://github.com/user-attachments/assets/bd991977-566a-437e-b6ce-a69a67c364af)
+
+![Screenshot 2024-10-03 125901](https://github.com/user-attachments/assets/e1c967e2-689c-4c37-bc1c-37200a0adddd)
+
+![Screenshot 2024-10-03 125923](https://github.com/user-attachments/assets/67331b45-4436-4b47-bfd0-2a6eef4510a6)
+
+![Screenshot 2024-10-03 125956](https://github.com/user-attachments/assets/b009ccf9-1825-498a-bd2f-b2e5de8757bf)
+
+<h4>dark mode </h4>
+
+![Screenshot 2024-10-03 130046](https://github.com/user-attachments/assets/f735a6c8-6863-4b8c-8d04-2217d8fa7c92)
+
+![Screenshot 2024-10-03 130057](https://github.com/user-attachments/assets/b7de6766-28f0-4ccf-a43d-5dfbe171016b)
+
+![Screenshot 2024-10-03 130104](https://github.com/user-attachments/assets/4bbb68fb-da84-4cd8-8cbe-012e7776a019)
+
+![Screenshot 2024-10-03 130157](https://github.com/user-attachments/assets/6a14eafb-be37-43da-913a-8a9326ccfbb0)!
+
+[Screenshot 2024-10-03 130216](https://github.com/user-attachments/assets/e4ba76fd-0ae8-4e27-a787-7622f9dc0129)
+
+![Screenshot 2024-10-03 130225](https://github.com/user-attachments/assets/c31abb6b-5226-4bd5-b253-321666b4c164)
+
+![Screenshot 2024-10-03 130342](https://github.com/user-attachments/assets/12458592-b56a-4721-a59f-22d12c9b2d60)
 
   <h2>Contributing</h2>
   <p>If you find any issues or want to contribute to this project, feel free to open an issue or submit a pull request.</p>
