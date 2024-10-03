@@ -29,6 +29,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "https://darshan-eats-food-delivery-mern-typescript.vercel.app",
+  "http://localhost:5173",
 ];
 
 const corsOption = {

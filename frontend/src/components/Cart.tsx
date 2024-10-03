@@ -25,12 +25,12 @@ const Cart = () => {
   const [openPayemnt, setOpenPayemnt] = useState(false);
 
   const totalPrice: number = cart.reduce(
-    (total: number, item: any) => total + item.price * item.quantity,
+    (total: number, item: any) =>
+      total + (item?.price || 0) * (item?.quantity || 1),
     0
   );
 
   const deliveryCharge: number = Math.floor(Math.random() * 100);
-
   const discount: number =
     totalPrice > 1000
       ? Math.floor(Math.random() * 150)
@@ -59,60 +59,62 @@ const Cart = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {cart?.map((item: any, idx) => (
-                <TableRow key={idx} className="dark:bg-gray-800">
-                  <TableCell className="font-medium dark:text-gray-100">
-                    <Avatar>
-                      <AvatarImage src={item?.image} />
-                      <AvatarFallback>{item?.name}</AvatarFallback>
-                    </Avatar>
-                  </TableCell>
-                  <TableCell className="font-medium dark:text-gray-100">
-                    {item?.name}
-                  </TableCell>
-                  <TableCell className="font-medium dark:text-gray-100">
-                    {item?.price || 0} INR
-                  </TableCell>
-                  <TableCell className="font-medium max-w-[100px] md:flex justify-center dark:text-gray-100">
-                    <div className="flex items-center justify-center">
+              {cart?.map((item: any, idx: number) =>
+                item && item._id ? (
+                  <TableRow key={idx} className="dark:bg-gray-800">
+                    <TableCell className="font-medium dark:text-gray-100">
+                      <Avatar>
+                        <AvatarImage src={item?.image} />
+                        <AvatarFallback>{item?.name}</AvatarFallback>
+                      </Avatar>
+                    </TableCell>
+                    <TableCell className="font-medium dark:text-gray-100">
+                      {item?.name}
+                    </TableCell>
+                    <TableCell className="font-medium dark:text-gray-100">
+                      {item?.price || 0} INR
+                    </TableCell>
+                    <TableCell className="font-medium max-w-[100px] md:flex justify-center dark:text-gray-100">
+                      <div className="flex items-center justify-center">
+                        <Button
+                          variant="outline"
+                          className="leading-4 text-gray-600 dark:text-gray-300"
+                          onClick={() => decrementQuantity(item?._id)}
+                        >
+                          <Minus size={12} className="mx-auto" />
+                        </Button>
+                        <input
+                          type="number"
+                          id="Quantity"
+                          value={item?.quantity || 1}
+                          className="h-10 w-10 text-center pl-2 border-gray-300 rounded-sm sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 bg-transparent"
+                          readOnly
+                        />
+                        <Button
+                          variant="outline"
+                          className="leading-4 text-gray-600 dark:text-gray-300"
+                          onClick={() => incrementQuantity(item?._id)}
+                        >
+                          <Plus size={12} className="mx-auto" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium text-center sm:text-start dark:text-gray-100">
+                      {item?.price * item?.quantity || 0} INR
+                    </TableCell>
+                    <TableCell className="font-medium text-right dark:text-gray-100">
                       <Button
-                        variant="outline"
-                        className="leading-4 text-gray-600 dark:text-gray-300"
-                        onClick={() => decrementQuantity(item?._id)}
+                        variant="ghost"
+                        aria-label="Remove item"
+                        className="dark:text-gray-300"
+                        onClick={() => removeCartItem(item?._id)}
                       >
-                        <Minus size={12} className="mx-auto" />
+                        <TrashIcon size={16} />
                       </Button>
-                      <input
-                        type="number"
-                        id="Quantity"
-                        value={item?.quantity || 1}
-                        className="h-10 w-10 text-center pl-2 border-gray-300 rounded-sm sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 bg-transparent"
-                        readOnly
-                      />
-                      <Button
-                        variant="outline"
-                        className="leading-4 text-gray-600 dark:text-gray-300"
-                        onClick={() => incrementQuantity(item?._id)}
-                      >
-                        <Plus size={12} className="mx-auto" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium text-center sm:text-start dark:text-gray-100">
-                    {item?.price * item?.quantity || 0} INR
-                  </TableCell>
-                  <TableCell className="font-medium text-right dark:text-gray-100">
-                    <Button
-                      variant="ghost"
-                      aria-label="Remove item"
-                      className="dark:text-gray-300"
-                      onClick={() => removeCartItem(item?._id)}
-                    >
-                      <TrashIcon size={16} />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                  </TableRow>
+                ) : null
+              )}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -122,7 +124,7 @@ const Cart = () => {
                 >
                   Total
                 </TableCell>
-                <TableCell className="font-medium  text-start  text-orange-500">
+                <TableCell className="font-medium text-start text-orange-500">
                   {totalPrice} INR
                 </TableCell>
                 <TableCell className="font-medium text-right dark:text-gray-100"></TableCell>
@@ -138,7 +140,7 @@ const Cart = () => {
                   <dd>{totalPrice} INR</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt>delivery Charge</dt>
+                  <dt>Delivery Charge</dt>
                   <dd>{deliveryCharge} INR</dd>
                 </div>
                 <div className="flex justify-between">
@@ -147,7 +149,7 @@ const Cart = () => {
                 </div>
                 <div className="flex justify-between text-base font-medium dark:text-gray-100">
                   <dt>Total</dt>
-                  <dd className=" text-red-600 font-semibold">
+                  <dd className="text-red-600 font-semibold">
                     {totalPrice - discount + deliveryCharge} INR
                   </dd>
                 </div>
@@ -194,7 +196,7 @@ const Cart = () => {
             order!
           </h3>
           <Link to={"/"}>
-            <Button variant={"link"} className=" my-5 text-2xl text-red-500">
+            <Button variant={"link"} className="my-5 text-2xl text-red-500">
               Back to Home
             </Button>
           </Link>
