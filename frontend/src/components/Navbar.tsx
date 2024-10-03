@@ -152,6 +152,9 @@ const CartIcon = () => {
 
 const MobileNavbar = () => {
   const { user } = useUserStore();
+  const { setOpen } = useAuthModel();
+  const { isAuthenticated, logout } = useUserStore();
+
   const adminLinks: NavLink[] = [
     { path: "/admin/dashboard", label: "Dashboard", icon: <LayoutDashboard /> },
     { path: "/admin/restaurant", label: "create Restaurant", icon: <Hotel /> },
@@ -164,6 +167,7 @@ const MobileNavbar = () => {
     { path: "/search/india", label: "Restaurants", icon: <Hotel /> },
     { path: "/cart", label: "Menu", icon: <ShoppingCartIcon /> },
   ];
+
   return (
     <Sheet>
       <SheetTrigger>
@@ -199,7 +203,23 @@ const MobileNavbar = () => {
               </Link>
             ))}
         </SheetDescription>
-        <SheetFooter>
+        <SheetFooter className="flex items-center justify-between">
+          {/* Login/Logout button */}
+          {isAuthenticated ? (
+            <Button
+              onClick={logout}
+              className="rounded-md bg-[#FF6B6B] px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-red-600"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              onClick={() => setOpen(true)}
+              className="rounded-md bg-green-400 px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-green-500"
+            >
+              Login
+            </Button>
+          )}
           <SheetClose asChild>
             <Button variant="outline" className="dark:bg-[#2E2E2E]">
               Close

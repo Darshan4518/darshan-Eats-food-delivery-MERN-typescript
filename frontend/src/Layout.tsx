@@ -9,10 +9,17 @@ import ForgetPass from "./auth/ForgetPass";
 import { useUserStore } from "./store/useUserStore";
 import VerifyEmail from "./auth/VerifyEmail";
 import Footer from "./components/Footer";
+import { useEffect } from "react";
 
 const Layout = () => {
   const { open, setOpen, tab } = useAuthModel();
   const { isAuthenticated } = useUserStore();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setOpen(true);
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="flex flex-col min-h-screen  bg-white dark:bg-gray-900">

@@ -1,7 +1,16 @@
 import Navbar from "@/components/Navbar";
-import { Outlet } from "react-router-dom";
+import { useUserStore } from "@/store/useUserStore";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const AdminLayout = () => {
+  const navigate = useNavigate();
+  const { user } = useUserStore();
+  useEffect(() => {
+    if (user?.role !== "admin") {
+      navigate("/");
+    }
+  }, [user]);
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
