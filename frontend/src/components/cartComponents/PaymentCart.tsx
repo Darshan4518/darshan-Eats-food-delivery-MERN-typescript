@@ -8,6 +8,7 @@ import { useOrderStore } from "@/store/useOrderStore";
 import { useCartStore } from "@/store/useCartStore";
 import { useRestaurantStore } from "@/store/useRestaurantStore";
 import { useUserStore } from "@/store/useUserStore";
+import { toast } from "sonner";
 
 const PaymentCart = ({
   openPayemnt,
@@ -27,8 +28,8 @@ const PaymentCart = ({
   const { cart } = useCartStore();
   const { restaurant } = useRestaurantStore();
   const { user } = useUserStore();
-
   const { loading, continuePayment } = useOrderStore();
+
   const [cardDetails, setCardDetails] = useState({
     name: "",
     cardNumber: "",
@@ -42,15 +43,13 @@ const PaymentCart = ({
   };
 
   const checkoutSessionRequest: any = {
-    cartItems: cart?.map((item) => {
-      return {
-        menuId: item?._id,
-        name: item?.name,
-        price: item?.price,
-        quantity: item?.quantity,
-        image: item?.image,
-      };
-    }),
+    cartItems: cart?.map((item) => ({
+      menuId: item?._id,
+      name: item?.name,
+      price: item?.price,
+      quantity: item?.quantity,
+      image: item?.image,
+    })),
     deliveryDetails: user,
     restaurantId: restaurant._id as string,
     totalAmount: totalPrice - discount + deliveryCharge,
@@ -60,8 +59,13 @@ const PaymentCart = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await continuePayment(checkoutSessionRequest);
-    setOpenPayemnt(false);
+    try {
+      await continuePayment(checkoutSessionRequest);
+      setOpenPayemnt(false);
+    } catch (error) {
+      // Handle payment error here
+      toast.error("Payment failed");
+    }
   };
 
   return (
@@ -86,7 +90,6 @@ const PaymentCart = ({
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 sm:px-6 py-4 sm:py-6">
-            {/* Display Total Amount */}
             <div className="text-center mb-4">
               <p className="text-lg font-semibold">Total Amount: </p>
               <p className="text-2xl font-bold text-green-600">
@@ -187,7 +190,7 @@ const PaymentCart = ({
                 className="w-full mt-4 text-sm sm:text-base py-2"
                 disabled={loading}
               >
-                {loading ? <Loader2 className=" animate-spin" /> : " Pay Now"}
+                {loading ? <Loader2 className="animate-spin" /> : " Pay Now"}
               </Button>
             </form>
           </CardContent>

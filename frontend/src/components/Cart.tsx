@@ -24,12 +24,14 @@ const Cart = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [openPayemnt, setOpenPayemnt] = useState(false);
 
+  // Calculate total price
   const totalPrice: number = cart.reduce(
     (total: number, item: any) =>
-      total + (item?.price || 0) * (item?.quantity || 1),
+      total + (item?.price || 0) * (item?.quantity || 0),
     0
   );
 
+  // Random delivery charge and discount
   const deliveryCharge: number = Math.floor(Math.random() * 100);
   const discount: number =
     totalPrice > 1000
@@ -39,10 +41,10 @@ const Cart = () => {
   return (
     <div className="dark:bg-gray-900 dark:text-gray-100 w-full">
       {cart?.length > 0 ? (
-        <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Table>
             <TableCaption className="text-gray-500 dark:text-gray-400">
-              A list of your recent invoices.
+              A list of your cart items.
             </TableCaption>
             <TableHeader>
               <TableRow>
@@ -59,8 +61,8 @@ const Cart = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {cart?.map((item: any, idx: number) =>
-                item && item._id ? (
+              {cart?.map((item: any, idx) =>
+                item ? (
                   <TableRow key={idx} className="dark:bg-gray-800">
                     <TableCell className="font-medium dark:text-gray-100">
                       <Avatar>
@@ -79,13 +81,14 @@ const Cart = () => {
                         <Button
                           variant="outline"
                           className="leading-4 text-gray-600 dark:text-gray-300"
-                          onClick={() => decrementQuantity(item?._id)}
+                          onClick={() =>
+                            item?._id && decrementQuantity(item._id)
+                          }
                         >
                           <Minus size={12} className="mx-auto" />
                         </Button>
                         <input
                           type="number"
-                          id="Quantity"
                           value={item?.quantity || 1}
                           className="h-10 w-10 text-center pl-2 border-gray-300 rounded-sm sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 bg-transparent"
                           readOnly
@@ -93,21 +96,23 @@ const Cart = () => {
                         <Button
                           variant="outline"
                           className="leading-4 text-gray-600 dark:text-gray-300"
-                          onClick={() => incrementQuantity(item?._id)}
+                          onClick={() =>
+                            item?._id && incrementQuantity(item._id)
+                          }
                         >
                           <Plus size={12} className="mx-auto" />
                         </Button>
                       </div>
                     </TableCell>
                     <TableCell className="font-medium text-center sm:text-start dark:text-gray-100">
-                      {item?.price * item?.quantity || 0} INR
+                      {(item?.price || 0) * (item?.quantity || 0)} INR
                     </TableCell>
                     <TableCell className="font-medium text-right dark:text-gray-100">
                       <Button
                         variant="ghost"
                         aria-label="Remove item"
                         className="dark:text-gray-300"
-                        onClick={() => removeCartItem(item?._id)}
+                        onClick={() => item?._id && removeCartItem(item._id)}
                       >
                         <TrashIcon size={16} />
                       </Button>
@@ -127,7 +132,6 @@ const Cart = () => {
                 <TableCell className="font-medium text-start text-orange-500">
                   {totalPrice} INR
                 </TableCell>
-                <TableCell className="font-medium text-right dark:text-gray-100"></TableCell>
               </TableRow>
             </TableFooter>
           </Table>
@@ -175,6 +179,7 @@ const Cart = () => {
               </div>
             </div>
           </div>
+
           <CheckoutConfirm
             open={open}
             setOpen={setOpen}
@@ -196,7 +201,7 @@ const Cart = () => {
             order!
           </h3>
           <Link to={"/"}>
-            <Button variant={"link"} className="my-5 text-2xl text-red-500">
+            <Button variant="link" className="my-5 text-2xl text-red-500">
               Back to Home
             </Button>
           </Link>
