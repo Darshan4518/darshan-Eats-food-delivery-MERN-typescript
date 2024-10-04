@@ -1,107 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <h1>Darshan-Eats</h1>
-  <p>Darshan-Eats is a full-stack food delivery website built using TypeScript for both the frontend and backend. The project allows users to order food from their favorite restaurants, and provides an admin panel for managing restaurants, menus, and orders. The website features advanced authentication and role-based access control.</p>
+ <h1>🍽️ Darshan-Eats</h1>
+  <p>Darshan-Eats is a full-stack food delivery website built using TypeScript for both the frontend and backend. The project allows users to order food from their favorite restaurants 🍔🍕, and provides an admin panel for managing restaurants, menus, and orders. The website features advanced authentication 🔒 and role-based access control 🛂.</p>
 
-  <h2>Live Demo</h2>
+  <h2>🚀 Live Demo</h2>
   <p>Check out the live site: <a href="https://darshan-eats-food-delivery-mern-typescript.vercel.app/" target="_blank">https://darshan-eats-food-delivery-mern-typescript.vercel.app</a></p>
 
-  <h2>Features</h2>
+  <h2>✨ Features</h2>
   <ul>
-    <li><strong>Advanced Authentication:</strong>
+    <li><strong>🔑 Advanced Authentication:</strong>
       <ul>
-        <li>Email verification using <strong>Nodemailer</strong></li>
-        <li>Forgot password and reset password functionality</li>
-        <li>Login as admin or user</li>
+        <li>Email verification using <strong>Nodemailer 📧</strong></li>
+        <li>Forgot password and reset password functionality 🔐</li>
+        <li>Login as admin or user 👥</li>
       </ul>
     </li>
-    <li><strong>Role-based Access:</strong>
+    <li><strong>🛡️ Role-based Access:</strong>
       <ul>
-        <li>Users can browse and order from restaurants</li>
-        <li>Admins can create, update, and delete restaurants and menus</li>
-        <li>Admins are limited to creating only one restaurant</li>
+        <li>Users can browse and order from restaurants 🍽️</li>
+        <li>Admins can create, update, and delete restaurants and menus ✏️</li>
+        <li>Admins are limited to creating only one restaurant 🏢</li>
       </ul>
     </li>
-    <li><strong>User Features:</strong>
+    <li><strong>👨‍🍳 User Features:</strong>
       <ul>
-        <li>Order food from favorite restaurants</li>
-        <li>Add items to the cart</li>
-        <li>Payment gateway integration</li>
+        <li>Order food from favorite restaurants 🍜</li>
+        <li>Add items to the cart 🛒</li>
+        <li>Payment gateway integration 💳</li>
       </ul>
     </li>
-    <li><strong>Admin Features:</strong>
+    <li><strong>🛠️ Admin Features:</strong>
       <ul>
-        <li>Manage restaurants and menus</li>
-        <li>View recent orders</li>
+        <li>Manage restaurants and menus 📝</li>
+        <li>View recent orders 📦</li>
       </ul>
     </li>
   </ul>
 
-  <h2>Dark Mode and Light Mode</h2>
-  <p>The website supports both dark and light themes, allowing users to toggle between them for a personalized experience.</p>
+  <h2>🌗 Dark Mode and Light Mode</h2>
+  <p>The website supports both dark 🌑 and light 🌞 themes, allowing users to toggle between them for a personalized experience.</p>
 
-  <h2>Tech Stack</h2>
+  <h2>🛠️ Tech Stack</h2>
   <ul>
     <li><strong>Frontend:</strong>
       <ul>
-        <li>React.js with TypeScript</li>
-        <li>Tailwind CSS</li>
+        <li>React.js with TypeScript ⚛️</li>
+        <li>Tailwind CSS 🎨</li>
         <li>Shadcn UI</li>
-        <li>Magic UI</li>
-        <li>Zustand for state management</li>
-        <li>Axios for API requests</li>
-        <li>Zod for schema validation</li>
-        <li>Cloudinary for image management</li>
+        <li>Magic UI ✨</li>
+        <li>Zustand for state management ⚡</li>
+        <li>Axios for API requests 🌐</li>
+        <li>Zod for schema validation 📜</li>
+        <li>Cloudinary for image management 🌥️</li>
       </ul>
     </li>
     <li><strong>Backend:</strong>
       <ul>
-        <li>Node.js with TypeScript</li>
-        <li>Express.js for server-side logic</li>
-        <li>MongoDB for database</li>
-        <li>Nodemailer for email services</li>
-        <li>JWT for authentication</li>
+        <li>Node.js with TypeScript 🟢</li>
+        <li>Express.js for server-side logic 🚀</li>
+        <li>MongoDB for database 🗄️</li>
+        <li>Nodemailer for email services 📧</li>
+        <li>JWT for authentication 🔐</li>
       </ul>
     </li>
   </ul>
 
-  <h2>Project Structure</h2>
-  <h3>Admin Panel:</h3>
+  <h2>🏗️ Project Structure</h2>
+  <h3>🔧 Admin Panel:</h3>
   <ul>
     <li>Admins can:
       <ul>
-        <li>Create, update, and delete restaurants (limited to one restaurant per admin)</li>
-        <li>Manage menus for restaurants</li>
-        <li>View recent orders</li>
+        <li>Create, update, and delete restaurants (limited to one restaurant per admin) 🏬</li>
+        <li>Manage menus for restaurants 🍽️</li>
+        <li>View recent orders 📦</li>
       </ul>
     </li>
   </ul>
 
-  <h3>User Panel:</h3>
+  <h3>👤 User Panel:</h3>
   <ul>
     <li>Users can:
       <ul>
-        <li>Order from restaurants</li>
-        <li>Add items to the cart</li>
-        <li>Complete payments via the integrated payment gateway</li>
+        <li>Order from restaurants 🍕</li>
+        <li>Add items to the cart 🛒</li>
+        <li>Complete payments via the integrated payment gateway 💳</li>
       </ul>
     </li>
   </ul>
 
-  <h3>Authentication:</h3>
+  <h3>🔐 Authentication:</h3>
   <ul>
-    <li>Sign up with email verification</li>
-    <li>Forgot and reset password flows</li>
-    <li>Login as an admin or a user</li>
+    <li>Sign up with email verification 📧</li>
+    <li>Forgot and reset password flows 🔑</li>
+    <li>Login as an admin or a user 👥</li>
   </ul>
 
-  <h2>How to Run</h2>
-  <h3>Prerequisites</h3>
+  <h2>💻 How to Run</h2>
+  <h3>⚙️ Prerequisites</h3>
   <ul>
     <li>Node.js installed</li>
     <li>MongoDB instance</li>
@@ -109,7 +102,7 @@
     <li>Payment gateway API keys (if using a real payment system)</li>
   </ul>
 
-  <h3>Setup</h3>
+  <h3>🚀 Setup</h3>
   <ol>
     <li>Clone the repository:
       <pre><code>git clone https://github.com/your-username/darshan-eats.git
@@ -122,19 +115,19 @@ cd darshan-eats
     <li>Set up environment variables:
       <p>Create a <code>.env</code> file with the following variables:</p>
       <ul>
-        <li>MongoDB connection string</li>
-        <li>JWT secret</li>
-        <li>Nodemailer configuration</li>
-        <li>Cloudinary API credentials</li>
+        <li>MongoDB connection string 🗄️</li>
+        <li>JWT secret 🔑</li>
+        <li>Nodemailer configuration 📧</li>
+        <li>Cloudinary API credentials 🌥️</li>
       </ul>
     </li>
     <li>Start the development server:
       <pre><code>npm run dev</code></pre>
     </li>
-    <li>Open your browser at <code>http://localhost:3000</code> to access the application.</li>
+    <li>Open your browser at <code>http://localhost:3000</code> to access the application 🌐.</li>
   </ol>
 
-  <h2>Screenshots</h2>
+ <h2>📸 Screenshots</h2>
   <p>Here are some screenshots of the application:</p>
   
 ![Screenshot 2024-10-03 120645](https://github.com/user-attachments/assets/1326f4d7-d19d-4cb1-9d52-2502613b0bb8)
@@ -197,11 +190,9 @@ cd darshan-eats
 
 ![Screenshot 2024-10-03 130342](https://github.com/user-attachments/assets/12458592-b56a-4721-a59f-22d12c9b2d60)
 
-  <h2>Contributing</h2>
-  <p>If you find any issues or want to contribute to this project, feel free to open an issue or submit a pull request.</p>
+  <h2>🤝 Contributing</h2>
+  <p>If you find any issues or want to contribute to this project, feel free to open an issue or submit a pull request 🤗.</p>
 
   <hr>
-  <p>This project is built to provide a robust platform for food delivery, combining powerful tools like <strong>React</strong>, <strong>Node.js</strong>, <strong>MongoDB</strong>, and various UI and utility libraries.</p>
+  <p>This project is built to provide a robust platform for food delivery, combining powerful tools like <strong>React ⚛️</strong>, <strong>Node.js 🟢</strong>, <strong>MongoDB 🗄️</strong>, and various UI and utility libraries 🎨.</p>
 
-</body>
-</html>
